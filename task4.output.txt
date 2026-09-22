@@ -1,0 +1,66 @@
+这是一个可直接运行的简易计算器 Python 代码，支持四则运算，并包含基本的错误提示。
+```python
+def calculate(num1, op, num2):
+    """执行四则运算"""
+    if op == '+':
+        return num1 + num2
+    elif op == '-':
+        return num1 - num2
+    elif op == '*':
+        return num1 * num2
+    elif op == '/':
+        if num2 == 0:
+            raise ZeroDivisionError("除数不能为 0")
+        return num1 / num2
+    else:
+        raise ValueError(f"不支持的运算符：{op}")
+
+
+def main():
+    print("===== 简易计算器 =====")
+    print("支持的运算：+  -  *  /")
+    print("输入格式：数字 运算符 数字（例如 3 + 5）")
+    print("输入 q 退出程序\n")
+
+    while True:
+        expr = input("请输入表达式：").strip()
+
+        if expr.lower() in ('q', 'quit', 'exit'):
+            print("已退出，再见！")
+            break
+        if not expr:
+            continue
+
+        try:
+            parts = expr.split()
+            if len(parts) != 3:
+                print("格式错误！请按“数字 运算符 数字”输入，例如：3 + 5\n")
+                continue
+
+            num1 = float(parts[0])
+            op = parts[1]
+            num2 = float(parts[2])
+
+            result = calculate(num1, op, num2)
+            print(f"结果：{result:g}\n")
+
+        except ValueError:
+            print("输入有误！请确保输入的是合法数字和运算符。\n")
+        except ZeroDivisionError as e:
+            print(f"错误：{e}\n")
+
+
+if __name__ == '__main__':
+    main()
+```
+### 操作方式与错误处理
+
+运行后，您只需按“数字 运算符 数字”的格式输入，就可以快速完成运算。
+
+- **交互流程**：程序启动后会显示支持的运算符和输入示例，然后进入循环等待输入。输入 `q`、`quit` 或 `exit` 即可退出。
+- **输入校验**：代码会检查输入是否由三部分组成（数字、运算符、数字），如果格式不正确会提示重新输入。
+- **运算逻辑**：`calculate` 函数分别处理加、减、乘、除四种运算，其中除法会检查除数是否为 0。
+- **错误处理**：除了除零错误，输入非数字或非法运算符时也会给出友好提示，不会让程序崩溃。
+---
+
+**优化建议：** 目前仅支持两个数字和一个运算符，如果您希望支持像“3 + 5 * 2”这样的连续表达式，可以再扩展输入解析部分。
